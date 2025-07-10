@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Truth, Dare & Ti Amo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff5f8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 1rem;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 2rem;
+      max-width: 500px;
+      text-align: center;
+      transition: background-color 0.5s ease;
+    }
+    h1 {
+      font-size: 1.8rem;
+      color: #d63384;
+    }
+    .prompt {
+      font-size: 1.2rem;
+      margin: 1rem 0;
+    }
+    .category {
+      font-style: italic;
+      color: #555;
+    }
+    button {
+      margin: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      background: #ff69b4;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #e255a1;
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="cardBox">
+    <h1>Truth, Dare & Ti Amo</h1>
+    <div class="category" id="category">Choose a card type</div>
+    <div class="prompt" id="prompt">Click a button below to begin!</div>
+    <button onclick="drawCard('Truth')">Truth</button>
+    <button onclick="drawCard('Dare')">Dare</button>
+    <button onclick="drawCard('Random')">Random</button>
+  </div>
+
+  <audio id="flipSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3"></audio>
+
+  <script>
+    const cardData = {
+      truths: [
+        { category: 'Spicy Truth', prompt: "What’s a fantasy you’ve had involving me?" },
+        { category: 'Romantic Truth', prompt: "What about me makes you feel most emotionally safe?" },
+        { category: 'Fun Truth', prompt: "If we had a reality show, what drama would we be known for?" },
+        { category: 'Memory Lane', prompt: "What moment made you start imagining a future with me?" },
+        { category: 'Would You Rather', prompt: "Would you rather have a surprise video date or a steamy voice note?" },
+        { category: 'Wildcard', prompt: "Say the first 3 words that come to your mind when you think of me — go!" }
+      ],
+      dares: [
+        { category: 'Spicy Dare', prompt: "Take off an item of clothing and stay that way for the rest of the game." },
+        { category: 'Romantic Dare', prompt: "Write 'I love you because...' and list 5 things. Send it." },
+        { category: 'Fun Dare', prompt: "Do your best dance move and send me a video." },
+        { category: 'Mirror Me', prompt: "Mimic how I usually flirt with you — over the top." },
+        { category: 'Spicy Show & Tell', prompt: "Show me your favorite part of what you’re wearing — without words." },
+        { category: 'Wildcard', prompt: "Draw a random object and find a romantic way to use it in a date idea." }
+      ]
+    };
+
+    function drawCard(type) {
+      const audio = document.getElementById('flipSound');
+      audio.currentTime = 0;
+      audio.play();
+
+      let card;
+      if (type === 'Truth') {
+        card = cardData.truths[Math.floor(Math.random() * cardData.truths.length)];
+      } else if (type === 'Dare') {
+        card = cardData.dares[Math.floor(Math.random() * cardData.dares.length)];
+      } else {
+        const all = cardData.truths.concat(cardData.dares);
+        card = all[Math.floor(Math.random() * all.length)];
+      }
+
+      const cardBox = document.getElementById('cardBox');
+
+      const themes = {
+        'Spicy': '#ffe0e9',
+        'Romantic': '#ffe8f0',
+        'Fun': '#fffbdc',
+        'Memory Lane': '#f4ece3',
+        'Would You Rather': '#e1f7ff',
+        'Mirror Me': '#f1f1f1',
+        'Wildcard': '#eae7ff'
+      };
+
+      const catKey = Object.keys(themes).find(key => card.category.includes(key)) || 'Romantic';
+      cardBox.style.backgroundColor = themes[catKey];
+
+      document.getElementById('category').textContent = card.category;
+      document.getElementById('prompt').textContent = card.prompt;
+    }
+  </script>
+</body>
+</html>
