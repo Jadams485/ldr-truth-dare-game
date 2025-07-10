@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verità, Sfida & Ti Amo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff5f8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 1rem;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 2rem;
+      max-width: 500px;
+      text-align: center;
+      transition: background-color 0.5s ease;
+    }
+    h1 {
+      font-size: 1.8rem;
+      color: #d63384;
+    }
+    .prompt {
+      font-size: 1.2rem;
+      margin: 1rem 0;
+    }
+    .category {
+      font-style: italic;
+      color: #555;
+    }
+    button {
+      margin: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      background: #ff69b4;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #e255a1;
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="cardBox">
+    <h1>Verità, Sfida & Ti Amo</h1>
+    <div class="category" id="category">Scegli un tipo di carta</div>
+    <div class="prompt" id="prompt">Clicca un pulsante per iniziare!</div>
+    <button onclick="drawCard('Verità')">Verità</button>
+    <button onclick="drawCard('Sfida')">Sfida</button>
+    <button onclick="drawCard('Casuale')">Casuale</button>
+  </div>
+
+  <audio id="flipSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3"></audio>
+
+  <script>
+    const cardData = {
+      verita: [
+        { category: 'Verità Piccante', prompt: "Qual è una fantasia che hai avuto su di me?" },
+        { category: 'Verità Romantica', prompt: "Cosa ti fa sentire più al sicuro emotivamente con me?" },
+        { category: 'Verità Divertente', prompt: "Se avessimo un reality show, quale sarebbe il nostro dramma?" },
+        { category: 'Ricordi', prompt: "Quale momento ti ha fatto iniziare a immaginare un futuro con me?" },
+        { category: 'Preferiresti', prompt: "Preferiresti un video-appuntamento a sorpresa o un vocale sexy?" },
+        { category: 'Jolly', prompt: "Dimmi le prime 3 parole che ti vengono in mente quando pensi a me!" }
+      ],
+      sfide: [
+        { category: 'Sfida Piccante', prompt: "Togliti un capo d’abbigliamento e resta così per il resto del gioco." },
+        { category: 'Sfida Romantica', prompt: "Scrivi 'Ti amo perché...' e elenca 5 motivi. Mandalo." },
+        { category: 'Sfida Divertente', prompt: "Fai il tuo miglior passo di danza e mandami un video." },
+        { category: 'Specchiami', prompt: "Imita come solitamente flirti con me — esagera!" },
+        { category: 'Spicy Show & Tell', prompt: "Mostrami la tua parte preferita dell’outfit — senza parole." },
+        { category: 'Jolly', prompt: "Disegna un oggetto a caso e trova un modo romantico per usarlo in un’idea per un appuntamento." }
+      ]
+    };
+
+    function drawCard(type) {
+      const audio = document.getElementById('flipSound');
+      audio.currentTime = 0;
+      audio.play();
+
+      let card;
+      if (type === 'Verità') {
+        card = cardData.verita[Math.floor(Math.random() * cardData.verita.length)];
+      } else if (type === 'Sfida') {
+        card = cardData.sfide[Math.floor(Math.random() * cardData.sfide.length)];
+      } else {
+        const all = cardData.verita.concat(cardData.sfide);
+        card = all[Math.floor(Math.random() * all.length)];
+      }
+
+      const cardBox = document.getElementById('cardBox');
+
+      const themes = {
+        'Piccante': '#ffe0e9',
+        'Romantica': '#ffe8f0',
+        'Divertente': '#fffbdc',
+        'Ricordi': '#f4ece3',
+        'Preferiresti': '#e1f7ff',
+        'Specchiami': '#f1f1f1',
+        'Jolly': '#eae7ff'
+      };
+
+      const catKey = Object.keys(themes).find(key => card.category.includes(key)) || 'Romantica';
+      cardBox.style.backgroundColor = themes[catKey];
+
+      document.getElementById('category').textContent = card.category;
+      document.getElementById('prompt').textContent = card.prompt;
+    }
+  </script>
+</body>
+</html>
